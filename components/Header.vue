@@ -20,7 +20,7 @@ a {
 }
 
 header {
-  background-color: #e8efff;
+  background-color: #f0f0f0;
   font-size: 20px;
   width: 100%;
   height: 40px;

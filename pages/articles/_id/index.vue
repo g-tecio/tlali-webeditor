@@ -37,41 +37,33 @@ export default {
   methods: {
     updateInfo: function() { //Called by the button
       console.log("Button clicked, processing data...");
-      console.log(this.buildJSON(
-        document.getElementById("id").value,
-        document.getElementById("title").value,
-        document.getElementById("author").value,
-        document.getElementById("date").value,
-        document.getElementById("location").value,
-        document.getElementById("status").value,
-        document.getElementById("section").value,
-        document.getElementById("tags").value,
-        document.getElementById("content").value
-      ));
+      console.log(this.buildJSON());
+      this.postData(this.buildJSON()); //Call POST
     },
 
-    buildJSON: function( //Build an object with the data from the form, return it as articleData
-      id,
-      title,
-      author,
-      date,
-      location,
-      status,
-      section,
-      tags,
-      content
-    ) {
+    async postData(articleJSON) {
+      this.$axios.$post('https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/1547569172444II6',
+      articleJSON).then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+
+//Build an object with the data from the form, return it as articleData
+    buildJSON: function() {
       var articleData = {
-        ID: id,
+        ID:               document.getElementById("id").value,
         ARTICLE: {
-          Author: author,
-          Content: content,
-          DT: date,
-          Location: location,
-          PublishStatus: status,
-          Section: section,
-          Tags: tags,
-          Title: title
+          Author:         document.getElementById("author").value,
+          Content:        document.getElementById("content").value,
+          DT:             document.getElementById("date").value,
+          Location:       document.getElementById("location").value,
+          PublishStatus:  document.getElementById("status").value,
+          Section:        document.getElementById("section").value,
+          Tags:           document.getElementById("tags").value,
+          Title:          document.getElementById("title").value
         },
         IMG: {
           Author: "Test Author",
