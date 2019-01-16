@@ -2,6 +2,12 @@
   <section class="articles">
     <!-- Render and <Article/> component for each article fetched from articlesData -->
     <Article
+      key="NEW"
+      id="NEW"
+      author="+"
+      title="Crear nuevo artículo"
+    />
+    <Article
       v-for="article in articlesData"
       v-bind:key="article.ID"
       v-bind:id="article.ID"

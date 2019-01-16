@@ -5,7 +5,7 @@
       <!-- <div class="thumbnail" v-bind:style="{backgroundImage: 'url(' + thumbnail + ')'}"></div> -->
       <!-- <div class="thumbnail" style="background-image:url(http://jewel1067.com/wp-content/uploads/news.jpg);"></div> -->
       <h1>{{ title }}</h1>
-      <h2>by {{ author }}</h2>
+      <h2>{{ author }}</h2>
     </article>
   </nuxt-link>
 </template>
@@ -41,4 +41,9 @@ h2 {
   border: 1px solid #cccccc;
   margin: 10px;
 }
+
+.article:hover {
+background-color: #efefef;
+}
+
 </style>
