@@ -1,7 +1,7 @@
 <template>
 <!-- nuxt-link makes the component to be clickable and links the article to the editor page -->
   <nuxt-link v-bind:to="'/articles/' + id">
-    <article class="article">
+    <article class="article" v-bind:style="{backgroundColor:color}">
       <!-- <div class="thumbnail" v-bind:style="{backgroundImage: 'url(' + thumbnail + ')'}"></div> -->
       <!-- <div class="thumbnail" style="background-image:url(http://jewel1067.com/wp-content/uploads/news.jpg);"></div> -->
       <h1>{{ title }}</h1>
@@ -14,7 +14,7 @@
 export default {
   //Values expected by this component, passed from the parent @pages/articles/index.vue
   //Ready to be used on <template>
-  props: ["id", "author", "title"]
+  props: ["id", "author", "title", "color"]
 };
 </script>
 
@@ -43,7 +43,7 @@ h2 {
 }
 
 .article:hover {
-background-color: #efefef;
+background-color: rgb(204, 241, 255);
 }
 
 </style>

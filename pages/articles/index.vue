@@ -6,6 +6,7 @@
       id="NEW"
       author="+"
       title="Crear nuevo artículo"
+      color="#D1D6DB"
     />
     <Article
       v-for="article in articlesData"
