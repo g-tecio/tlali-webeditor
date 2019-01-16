@@ -1,27 +1,30 @@
 <template>
   <section class="single-article">
     <h1>¿Eliminar artículo?</h1>
-    <p>
-    <b>ID:</b>
-    {{ articlesData.ID }} <br>
-    <b>Título:</b>
-    {{ articlesData.ARTICLE.Title }} <br>
-    <b>Autor:</b>
-    {{ articlesData.ARTICLE.Author }} <br>
-    <b>Fecha:</b>
-    {{ articlesData.ARTICLE.DT }} <br>
-    <b>Localización</b>
-    {{ articlesData.ARTICLE.Location }} <br>
-    <b>Estado de publicación:</b>
-    {{ articlesData.ARTICLE.PublishStatus }} <br>
-    <b>Sección:</b>
-    {{ articlesData.ARTICLE.Section }} <br>
-    <b>Etiquetas:</b>
-    {{ articlesData.ARTICLE.Tags }} <br>
-    <b>Contenido:</b>
-    {{ articlesData.ARTICLE.Content }} <br>
-    </p>
+    <article>
+      <p>
+        <b>ID:</b>
+        {{ articlesData.ID }} <br>
+        <b>Título:</b>
+        {{ articlesData.ARTICLE.Title }} <br>
+        <b>Autor:</b>
+        {{ articlesData.ARTICLE.Author }} <br>
+        <b>Fecha:</b>
+        {{ articlesData.ARTICLE.DT }} <br>
+        <b>Localización</b>
+        {{ articlesData.ARTICLE.Location }} <br>
+        <b>Estado de publicación:</b>
+        {{ articlesData.ARTICLE.PublishStatus }} <br>
+        <b>Sección:</b>
+        {{ articlesData.ARTICLE.Section }} <br>
+        <b>Etiquetas:</b>
+        {{ articlesData.ARTICLE.Tags }} <br>
+        <b>Contenido:</b>
+        {{ articlesData.ARTICLE.Content }} <br>
+      </p>
+    </article>
     <!-- Button to update changes -->
+    <br>
     <input type="button" id="submit" v-on:click="callDelete()" value="SI, ELIMINAR">
   </section>
 </template>
@@ -63,6 +66,11 @@ export default {
 </script>
 
 <style scoped>
+p{
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
 input {
   font-weight: bold;
   display: block;
@@ -84,7 +92,10 @@ b {
   margin-block-end: 2px;
 }
 
-section {
+article {
+  /* border: 1px solid #cccccc; */
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgb(153, 153, 153);
   margin: auto;
   width: 500px;
 }

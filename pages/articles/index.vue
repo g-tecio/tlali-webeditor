@@ -6,7 +6,7 @@
       id="NEW"
       author="+"
       title="Crear nuevo artículo"
-      color="#D1D6DB"
+      color="#9FF1B8"
       display="none"
     />
     <Article
