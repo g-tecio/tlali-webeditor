@@ -1,4 +1,5 @@
 <template>
+<!-- nuxt-link makes the component to be clickable and links the article to the editor page -->
   <nuxt-link v-bind:to="'/articles/' + id">
     <article class="article">
       <!-- <div class="thumbnail" v-bind:style="{backgroundImage: 'url(' + thumbnail + ')'}"></div> -->
@@ -11,6 +12,8 @@
 
 <script>
 export default {
+  //Values expected by this component, passed from the parent @pages/articles/index.vue
+  //Ready to be used on <template>
   props: ["id", "author", "title"]
 };
 </script>

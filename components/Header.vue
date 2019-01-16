@@ -1,4 +1,5 @@
 <template>
+<!-- Navigation bar -->
   <header>
     <nav>
       <ul>
@@ -9,14 +10,20 @@
   </header>
 </template>
 
-<style scoped>
+<style>
+body {
+  margin: 0;
+}
+
 a {
   text-decoration: none;
 }
+
 header {
+  background-color: #e8efff;
   font-size: 20px;
   width: 100%;
-  height: 30px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;

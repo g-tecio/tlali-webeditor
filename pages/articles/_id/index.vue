@@ -1,9 +1,10 @@
 <template>
   <section class="single-article">
+    <h1>Editor</h1>
+    <!-- Form to show and edit article data -->
     <form>
-      <h1>Editor</h1>
       <h2>ID:</h2>
-      {{ $route.params.id }}
+      <input type="text" id="id" v-bind:value="articlesData.ID">
       <h2>Título:</h2>
       <input type="text" id="title" v-bind:value="articlesData.ARTICLE.Title">
       <h2>Autor:</h2>
@@ -19,8 +20,9 @@
       <h2>Etiquetas:</h2>
       <input type="text" id="tags" v-bind:value="articlesData.ARTICLE.Tags">
       <h2>Contenido:</h2>
-      <textarea v-model="articlesData.ARTICLE.Content" rows="4" cols="50"></textarea>
+      <textarea id="content" v-bind:value="articlesData.ARTICLE.Content" rows="4" cols="50"></textarea>
       <br>
+      <!-- Button to update changes -->
       <input type="button" id="submit" v-on:click="updateInfo()" value="Actualizar">
     </form>
   </section>
@@ -33,23 +35,59 @@ export default {
   },
 
   methods: {
-    updateInfo: function() {
-      console.log("Button clicked!");
-      console.log("Author: " + document.getElementById("author").value);
-      // POST
-      // this.$axios.$post(
-      //   "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/01",
-      //   {
-      //     ARTICLE: {
-      //       Author: document.getElementById("author").value
-      //     }
-      //   }
-      // );
+    updateInfo: function() { //Called by the button
+      console.log("Button clicked, processing data...");
+      console.log(this.buildJSON(
+        document.getElementById("id").value,
+        document.getElementById("title").value,
+        document.getElementById("author").value,
+        document.getElementById("date").value,
+        document.getElementById("location").value,
+        document.getElementById("status").value,
+        document.getElementById("section").value,
+        document.getElementById("tags").value,
+        document.getElementById("content").value
+      ));
+    },
+
+    buildJSON: function( //Build an object with the data from the form, return it as articleData
+      id,
+      title,
+      author,
+      date,
+      location,
+      status,
+      section,
+      tags,
+      content
+    ) {
+      var articleData = {
+        ID: id,
+        ARTICLE: {
+          Author: author,
+          Content: content,
+          DT: date,
+          Location: location,
+          PublishStatus: status,
+          Section: section,
+          Tags: tags,
+          Title: title
+        },
+        IMG: {
+          Author: "Test Author",
+          DT: "Date Test",
+          Location: "Location Test",
+          "S3-DIR": "Test dir"
+        }
+      };
+      return articleData;
     }
   },
 
-  async asyncData({ $axios, params }) {
-    const url = "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/" + params.id;
+  async asyncData({ $axios, params }) { //Fetch the data from a single article, given the ID
+    const url =
+      "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/" +
+      params.id;
     console.log(url);
     const articlesData = await $axios.$get(url);
     console.log("Data fechted");
