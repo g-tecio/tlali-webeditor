@@ -1,5 +1,4 @@
 <template>
-<!-- Navigation bar -->
   <header>
     <nav>
       <ul>

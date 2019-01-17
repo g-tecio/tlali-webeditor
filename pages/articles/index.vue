@@ -1,5 +1,6 @@
 <template>
   <section class="articles">
+    <h1>Mostrando todos los artículos</h1>
     <!-- Render and <Article/> component for each article fetched from articlesData -->
     <Article
       v-for="article in articlesData"
