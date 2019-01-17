@@ -42,7 +42,8 @@ export default {
     },
 
     async postData(articleJSON) {
-      this.$axios.$post('https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/1547569172444II6',
+      console.log(this.$route.params.id);
+      this.$axios.$put('https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/' + this.$route.params.id,
       articleJSON).then(function (response) {
         console.log(response);
       })
