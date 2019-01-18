@@ -1,6 +1,6 @@
 <template>
   <section class="articles">
-    <h1>Mostrando todos los artículos</h1>
+    <h1> {{ $route.params.articles }} </h1>
     <!-- Render and <Article/> component for each article fetched from articlesData -->
     <Article
       v-for="article in articlesData"
@@ -29,7 +29,7 @@ export default {
       return { articlesData };
     } else {
         const articlesData = await $axios.$get(
-          "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/publishstatus/" + params.articles);
+          "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/publishstatus/" + params.articles.slice(0, -1)); //Trim the last letter to make correct URL
         return { articlesData };
     }
   }
@@ -41,7 +41,8 @@ h1 {
   text-align: center;
 }
 .articles {
-  display: block;
+  position: relative;
+  left:100px;
   margin: auto;
   width: 70%;
   min-width: 500px;

@@ -26,13 +26,22 @@ export default {
   font-weight: bold;
 }
 
-.card-left {
-  /* background-color: rgb(204, 255, 255); */
+#card-author {
+  font-size: 18px;
 }
+
+/* .card-left {
+  background-color: rgb(204, 255, 255);
+} */
 
 .card-right {
   text-align: right;
   /* background-color: rgb(255, 238, 208); */
+}
+
+small {
+  font-weight: bold;
+  font-size: 10px;
 }
 
 p {
@@ -49,7 +58,7 @@ a {
   grid-template-columns: 60% 40%;
   border: 1px solid #cccccc;
   padding: 10px;
-  margin: 10px;
+  margin: 10px 0 10px 0;
 }
 
 .article:hover {

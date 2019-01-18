@@ -1,12 +1,7 @@
 <template>
-  <div id="everything">
-    <!-- <Header /> -->
-    <div class="sidebar">
+  <div>
     <Sidebar />
-    </div>
-    <div class="content">
     <nuxt/>
-    </div>
   </div>
 </template>
 
@@ -19,12 +14,8 @@ export default {
 }
 </script>
 
-<style scoped>
-.content {
-  left: 100px;
-  margin: auto;
-  width: 100%;
-  align-content: center;
-  position: absolute;
+<style>
+body {
+  margin: 0;
 }
 </style>
