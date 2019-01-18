@@ -1,11 +1,13 @@
 <template>
     <nav id="sidebar">
-      <h1>TLALI</h1>
+      <nuxt-link id="start" to="/">
+      <img src="@/assets/logo.png" alt="Tlali">
+      </nuxt-link>
       <ul>
-        <li><nuxt-link to="/articles">Inicio</nuxt-link></li>
-        <li><nuxt-link to="/articles/Aproved">Aprobados</nuxt-link></li>
-        <li><nuxt-link to="/articles/Pending">Pendientes</nuxt-link></li>
-        <li><nuxt-link to="/articles/Rejected">Rechazados</nuxt-link></li>
+        <li><nuxt-link to="/Articulos/">Inicio</nuxt-link></li>
+        <li><nuxt-link to="/Aprobado">Aprobados</nuxt-link></li>
+        <li><nuxt-link to="/Pendiente">Pendientes</nuxt-link></li>
+        <li><nuxt-link to="/Rechazado">Rechazados</nuxt-link></li>
       </ul>
     </nav>
 </template>
@@ -16,14 +18,20 @@ a {
   text-decoration: none;
 }
 
-h1 {
-  color: white;
-  text-align: center
+img {
+  display: block;
+  margin: auto;
+  width: 100px;
+}
+
+ul {
+  padding: 0;
 }
 
 li {
-  padding: 5px;
+  padding: 10px;
   list-style: none;
+  text-align: center;
 }
 
 #sidebar {
