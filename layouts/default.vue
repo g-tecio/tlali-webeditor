@@ -1,10 +1,10 @@
 <template>
   <div id="everything">
     <!-- <Header /> -->
-    <div id="sidebar">
+    <div class="sidebar">
     <Sidebar />
     </div>
-    <div id="content">
+    <div class="content">
     <nuxt/>
     </div>
   </div>
@@ -19,8 +19,8 @@ export default {
 }
 </script>
 
-<style>
-#content {
+<style scoped>
+.content {
   left: 100px;
   margin: auto;
   width: 100%;
