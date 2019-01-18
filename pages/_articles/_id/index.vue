@@ -1,28 +1,29 @@
 <template>
-  <section class="single-article">
+  <section class="article-data">
     <h1>Editor</h1>
     <!-- Form to show and edit article data -->
-    <form>
+    <div class="article-data-grid">
       <p><b>ID:</b> {{ articlesData.ID }} </p>
-
-      <p><b>Autor:</b> {{ articlesData.ARTICLE.Author }}</p>
-
       <p><b>Fecha:</b> {{ articlesData.ARTICLE.DT }}</p>
-
+      <p><b>Autor:</b> {{ articlesData.ARTICLE.Author }}</p>
+      <div class="status-data-grid">
+        <p><b>Estado:</b> {{ articlesData.ARTICLE.PublishStatus }}</p>
+          <select id="status">
+          <option value="Aprobado" style="background-color:#1FE229">Aprobado</option>
+          <option value="Pendiente" style="background-color:#FFE60C">Pendiente</option>
+          <option value="Rechazado" style="background-color:#E02F2A">Rechazado</option>
+        </select>
+        <input type="button" class="button-status" value="✔">
+      </div>
+    </div>
+    <hr>
+   <div class="article-form">
       <!-- <input type="date" id="date"> -->
-
-      <p><b>Estado actual:</b> {{ articlesData.ARTICLE.PublishStatus }}</p>
-
-      <select id="status">
-        <option value="Aprobado" style="background-color:green">Aprobado</option>
-        <option value="Pendiente" style="background-color:orange">Pendiente</option>
-        <option value="Rechazado" style="background-color:red">Rechazado</option>
-      </select>
 
       <h2>Título:</h2>
       <input type="text" id="title" v-bind:value="articlesData.ARTICLE.Title">
 
-      <h2>Localización</h2>
+      <h2>Localización:</h2>
       <input type="text" id="location" v-bind:value="articlesData.ARTICLE.Location">
 
       <h2>Sección:</h2>
@@ -33,10 +34,9 @@
 
       <h2>Contenido:</h2>
       <textarea id="content" v-bind:value="articlesData.ARTICLE.Content" rows="7" cols="50"></textarea>
-      <br>
+    </div>
       <!-- Button to update changes -->
-      <input type="button" id="submit" v-on:click="updateInfo()" value="Actualizar">
-    </form>
+      <input type="button" class="button-update" v-on:click="updateInfo()" value="Actualizar">
   </section>
 </template>
 
@@ -103,26 +103,31 @@ export default {
 </script>
 
 <style scoped>
-#submit {
+.article-data {
+  margin: auto;
+  width: 70%;
+  min-width: 500px;
+}
+
+.status-data-grid {
+  display: grid;
+  grid-template-columns: 30% 30% 20%;
+}
+
+.article-data-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.button-update {
   background-color: rgb(230, 230, 230);
 }
 
-h1 {
-  text-align: center;
-  font-size: 30px;
-}
-
-h2 {
-  font-size: 14px;
-  margin-block-start: 2px;
-  margin-block-end: 2px;
-}
-
-form {
-  padding: 10px;
-  display: block;
-  margin: auto;
-  width: 500px;
+.button-status {
+  height: 30px;
+  width: 30px;
+  align-self: center;
+  justify-self: center;
 }
 
 input,

@@ -15,7 +15,7 @@
 <style scoped>
 img {
   display: block;
-  margin: auto;
+  margin: 20px auto 20px auto;
   width: 100px;
 }
 
@@ -30,11 +30,8 @@ ul {
 .sidebar {
   background-color: #111;
   height: 100%;
-  left: 0;
-  padding-top: 20px;
   position: fixed;
   text-align: center;
-  top: 0;
   width: 200px;
 }
 

@@ -2,6 +2,7 @@
   <section class="articles">
     <h1> {{ $route.params.articles }} </h1>
     <!-- Render and <Article/> component for each article fetched from articlesData -->
+    <hr>
     <Article
       v-for="article in articlesData"
       v-bind:key="article.ID"
@@ -37,14 +38,17 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css?family=Courgette');
+
+hr {
+  border: 0.5px solid #dddddd;
+  margin: 0;
 }
-.articles {
-  position: relative;
-  left:100px;
-  margin: auto;
-  width: 70%;
-  min-width: 500px;
+
+h1 {
+  font-size: 40px;
+  padding: 30px 0 30px 0;
+  font-family: 'Courgette', cursive;
+  text-align: center;
 }
 </style>

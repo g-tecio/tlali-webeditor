@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <Sidebar />
-    <nuxt/>
+  <div class="main-layout">
+    <Sidebar/>
+    <div class="nuxt-content">
+      <nuxt/>
+    </div>
   </div>
 </template>
 
@@ -15,7 +17,10 @@ export default {
 </script>
 
 <style>
-body {
+body, h1, p {
   margin: 0;
+}
+.nuxt-content {
+  margin-left: 200px;
 }
 </style>
