@@ -4,7 +4,7 @@
       <img src="@/assets/logo.png" alt="Tlali">
       </nuxt-link>
       <ul>
-        <li><nuxt-link class="nav-link" to="/Articulos/">Inicio</nuxt-link></li>
+        <li><nuxt-link class="nav-link" to="/Articulos/">Todos</nuxt-link></li>
         <li><nuxt-link class="nav-link" to="/Aprobados">Aprobados</nuxt-link></li>
         <li><nuxt-link class="nav-link" to="/Pendientes">Pendientes</nuxt-link></li>
         <li><nuxt-link class="nav-link" to="/Rechazados">Rechazados</nuxt-link></li>

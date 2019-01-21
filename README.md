@@ -1,4 +1,4 @@
-# # Tlali Web Editor
+## Tlali Web Editor
 
 > Web client for the journalists. Create, edit and delete articles!
 
