@@ -7,22 +7,13 @@
       <p><b>Fecha:</b> {{ articlesData.ARTICLE.DT }}</p>
       <p><b>Autor:</b> {{ articlesData.ARTICLE.Author }}</p>
       <div class="status-data-grid">
-        <p><b>Estado:</b> {{ articlesData.ARTICLE.PublishStatus }}</p>
-          <select id="status">
-          <option value="Aprobado" style="background-color:#1FE229">Aprobado</option>
-          <option value="Pendiente" style="background-color:#FFE60C">Pendiente</option>
-          <option value="Rechazado" style="background-color:#E02F2A">Rechazado</option>
-        </select>
-        <input type="button" class="button-status" value="✔">
+        <p><b>Estado:</b></p>
+          <select id="status" v-bind:value="articlesData.ARTICLE.PublishStatus">
+            <option value="Aprobado" style="background-color:#1FE229">Aprobado</option>
+            <option value="Pendiente" style="background-color:#FFE60C">Pendiente</option>
+            <option value="Rechazado" style="background-color:#E02F2A">Rechazado</option>
+          </select>
       </div>
-    </div>
-    <hr>
-   <div class="article-form">
-      <!-- <input type="date" id="date"> -->
-
-      <h2>Título:</h2>
-      <input type="text" id="title" v-bind:value="articlesData.ARTICLE.Title">
-
       <h2>Localización:</h2>
       <input type="text" id="location" v-bind:value="articlesData.ARTICLE.Location">
 
@@ -31,12 +22,17 @@
 
       <h2>Etiquetas:</h2>
       <input type="text" id="tags" v-bind:value="articlesData.ARTICLE.Tags">
+    </div>
+    <hr>
+   <div class="article-form">
+      <!-- <input type="date" id="date"> -->
 
-      <h2>Contenido:</h2>
-      <textarea id="content" v-bind:value="articlesData.ARTICLE.Content" rows="7" cols="50"></textarea>
+      <input type="text" id="title" placeholder="Título" autocomplete="off" v-bind:value="articlesData.ARTICLE.Title">
+      <textarea id="content" placeholder="Comienza aquí..." v-bind:value="articlesData.ARTICLE.Content" rows="7" cols="50"></textarea>
+
     </div>
       <!-- Button to update changes -->
-      <input type="button" class="button-update" v-on:click="updateInfo()" value="Actualizar">
+      <input type="button" class="button-update" v-on:click="updateInfo()" value="ACTUALIZAR">
   </section>
 </template>
 
@@ -103,6 +99,23 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 14px;
+}
+#title {
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+#content {
+  font-size: 20px;
+}
+
 .article-data {
   margin: auto;
   width: 70%;
@@ -110,33 +123,36 @@ export default {
 }
 
 .status-data-grid {
+  align-items: center;
   display: grid;
-  grid-template-columns: 30% 30% 20%;
+  grid-template-columns: 30% 70%;
 }
 
 .article-data-grid {
+  align-items: center;
   display: grid;
   grid-template-columns: 50% 50%;
 }
 
 .button-update {
-  background-color: rgb(230, 230, 230);
-}
-
-.button-status {
   height: 30px;
-  width: 30px;
-  align-self: center;
-  justify-self: center;
+  width: 100px;
+  font-weight: bold;
+  font-size: 12px;
+  color: white;
+  background-color: rgb(104, 136, 243);
 }
 
 input,
 textarea {
   box-sizing: border-box;
-  border: 1px solid #cccccc;
-  padding: 5px;
-  margin: 5px;
-  width: 500px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* border: 1px solid #cccccc; */
+  outline: none;
+  border: none;
+  /* padding: 5px;
+  margin: 5px; */
+  width: 100%;
   margin-block-start: 2px;
   margin-block-end: 2px;
 }
