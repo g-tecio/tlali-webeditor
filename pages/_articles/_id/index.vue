@@ -1,45 +1,43 @@
 <template>
-  <section class="article-data">
-    <h1>Editor</h1>
-    <!-- Form to show and edit article data -->
-    <div class="article-data-grid">
-      <p><b>ID:</b> {{ articlesData.ID }} </p>
-      <p><b>Fecha:</b> {{ articlesData.ARTICLE.DT }}</p>
-      <p><b>Autor:</b> {{ articlesData.ARTICLE.Author }}</p>
-      <div class="status-data-grid">
-        <p><b>Estado:</b></p>
-          <select id="status" v-bind:value="articlesData.ARTICLE.PublishStatus">
-            <option value="Aprobado" style="background-color:#1FE229">Aprobado</option>
-            <option value="Pendiente" style="background-color:#FFE60C">Pendiente</option>
-            <option value="Rechazado" style="background-color:#E02F2A">Rechazado</option>
-          </select>
-      </div>
-      <h2>Localización:</h2>
-      <input type="text" id="location" v-bind:value="articlesData.ARTICLE.Location">
+  <section class="article-data" v-bind:style="{marginRight:marginMain + 'px'}">
+    <ArticleSettings
 
-      <h2>Sección:</h2>
-      <input type="text" id="section" v-bind:value="articlesData.ARTICLE.Section">
+    v-bind:style="{marginRight: marginBar + 'px'}"
+    v-bind:location="articlesData.ARTICLE.Location"
+    v-bind:section="articlesData.ARTICLE.Section"
+    v-bind:tags="articlesData.ARTICLE.Tags"
+    v-bind:id="articlesData.ID"
+    v-bind:date="articlesData.ARTICLE.DT"
+    v-bind:author="articlesData.ARTICLE.Author"
+    v-bind:status="articlesData.ARTICLE.PublishStatus"
+    />
 
-      <h2>Etiquetas:</h2>
-      <input type="text" id="tags" v-bind:value="articlesData.ARTICLE.Tags">
-    </div>
-    <hr>
-   <div class="article-form">
-      <!-- <input type="date" id="date"> -->
+    <input type="button" class="button-toggle" v-on:click="toggleBar()" value="+">
+    <input type="button" class="button-update" v-on:click="updateInfo()" value="ACTUALIZAR">
 
-      <input type="text" id="title" placeholder="Título" autocomplete="off" v-bind:value="articlesData.ARTICLE.Title">
-      <textarea id="content" placeholder="Comienza aquí..." v-bind:value="articlesData.ARTICLE.Content" rows="7" cols="50"></textarea>
-
-    </div>
-      <!-- Button to update changes -->
-      <input type="button" class="button-update" v-on:click="updateInfo()" value="ACTUALIZAR">
+    <input type="text" id="title" placeholder="Título" autocomplete="off" v-bind:value="articlesData.ARTICLE.Title">
+    <textarea id="content" class="autoExpand" placeholder="Comienza aquí..." v-bind:value="articlesData.ARTICLE.Content" rows="7" cols="50"></textarea>
   </section>
 </template>
 
 <script>
+import ArticleSettings from '@/components/ArticleSettings'
+
 export default {
+  components: {
+    ArticleSettings
+  },
+
   created: function() {
     console.log("Page loaded");
+  },
+
+  data: function() {
+    return {
+      showBar: true,
+      marginMain: 250,
+      marginBar: 0
+    }
   },
 
   methods: {
@@ -47,6 +45,21 @@ export default {
       console.log("Button clicked, processing data...");
       console.log(this.buildJSON());
       this.postData(this.buildJSON()); //Call POST
+    },
+
+    toggleBar: function() {
+      this.showBar ? this.showBar = false : this.showBar = true;
+      this.toggleMargin();
+    },
+
+    toggleMargin: function() {
+      if (this.showBar) {
+        this.marginMain = 250;
+        this.marginBar = 0;
+      } else {
+        this.marginMain = 0;
+        this.marginBar = -250;
+      }
     },
 
     async postData(articleJSON) {
@@ -65,10 +78,11 @@ export default {
       var articleData = {
         // ID:             this.articlesData.ID,
         ARTICLE: {
-          Author:         this.articlesData.ARTICLE.Author,
+          // Author:         this.articlesData.ARTICLE.Author,
+          Author:         document.getElementById("author").value,
           Content:        document.getElementById("content").value,
-          // DT:             document.getElementById("date").value,
-          DT:             this.articlesData.ARTICLE.DT,
+          DT:             document.getElementById("date").value,
+          // DT:             this.articlesData.ARTICLE.DT,
           Location:       document.getElementById("location").value,
           PublishStatus:  document.getElementById("status").value,
           Section:        document.getElementById("section").value,
@@ -99,14 +113,10 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  text-align: center;
-  padding: 20px;
+#location, #section, #tags {
+  display: inline;
 }
 
-h2 {
-  font-size: 14px;
-}
 #title {
   font-size: 30px;
   font-weight: bolder;
@@ -117,43 +127,46 @@ h2 {
 }
 
 .article-data {
-  margin: auto;
-  width: 70%;
+  transition: .7s;
+  margin-left: 200px;
+  margin-right: 250px;
+  padding: 0 50px 0 50px;
   min-width: 500px;
+  /* height: 700px; */
 }
 
-.status-data-grid {
-  align-items: center;
-  display: grid;
-  grid-template-columns: 30% 70%;
-}
-
-.article-data-grid {
-  align-items: center;
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
-
-.button-update {
+.button-update, .button-toggle {
+  float: right;
+  margin: 20px;
   height: 30px;
-  width: 100px;
   font-weight: bold;
   font-size: 12px;
   color: white;
   background-color: rgb(104, 136, 243);
 }
 
+.button-update {
+  width: 100px;
+}
+
+.button-toggle {
+  width: 30px;
+}
+
 input,
 textarea {
   box-sizing: border-box;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: none;
   /* border: 1px solid #cccccc; */
   outline: none;
-  border: none;
-  /* padding: 5px;
-  margin: 5px; */
   width: 100%;
   margin-block-start: 2px;
   margin-block-end: 2px;
+}
+
+textarea {
+  resize: none;
+  height: 80vh;
 }
 </style>

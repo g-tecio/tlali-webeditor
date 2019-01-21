@@ -39,6 +39,9 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Courgette');
+.articles {
+  margin-left: 200px;
+}
 
 hr {
   border: 0.5px solid #dddddd;
