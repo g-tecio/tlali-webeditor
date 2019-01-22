@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  name: 'ArticleCard',
   //Values expected by this component, passed from the parent @pages/articles/index.vue
   //Ready to be used on <template>
   props: ["id", "author", "title", "date", "status"],

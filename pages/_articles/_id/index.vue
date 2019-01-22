@@ -11,9 +11,7 @@
     v-bind:status="articlesData.ARTICLE.PublishStatus"
     v-bind:tags="articlesData.ARTICLE.Tags"
     />
-
-    <input type="button" class="button-toggle" v-on:click="toggleBar()" value="+">
-    <input type="button" class="button-update" v-on:click="updateInfo()" value="ACTUALIZAR">
+    <input type="button" class="button-toggle" v-on:click="toggleBar()" value="MÁS">
 
     <input type="text" id="title" placeholder="Título" autocomplete="off" v-bind:value="articlesData.ARTICLE.Title">
     <textarea id="content" class="autoExpand" placeholder="Comienza aquí..." v-bind:value="articlesData.ARTICLE.Content" rows="7" cols="50"></textarea>
@@ -135,22 +133,15 @@ export default {
   /* height: 700px; */
 }
 
-.button-update, .button-toggle {
-  float: right;
-  margin: 20px;
-  height: 30px;
-  font-weight: bold;
-  font-size: 12px;
-  color: white;
-  background-color: rgb(104, 136, 243);
-}
-
-.button-update {
-  width: 100px;
-}
-
 .button-toggle {
-  width: 30px;
+  font-weight: bolder;
+  float: right;
+  margin: 20px 0 20px 0;
+  height: 30px;
+  font-size: 15px;
+  color: rgb(84, 108, 218);
+  width: 70px;
+  background-color: #ebebeb;
 }
 
 input,

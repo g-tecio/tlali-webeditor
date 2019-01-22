@@ -23,6 +23,8 @@
 
     <p><b>Etiquetas:</b></p>
     <input type="text" id="tags" autocomplete="off" v-bind:value="tags">
+    <hr>
+    <input class="update-button" type="button" value="ACTUALIZAR" v-on:click="$parent.updateInfo()">
   </div>
   </div>
 </template>
@@ -61,6 +63,15 @@ input, select {
 h1 {
   text-align: center;
   font-size: 20px;
+}
+
+.update-button {
+  font-size: 12x;
+  padding: 8px 0 8px 0;
+  font-weight: bold;
+  color: white;
+  border: none;
+  background-image: linear-gradient(rgb(58, 146, 228), rgb(17, 48, 151));
 }
 
 .article-bar {
