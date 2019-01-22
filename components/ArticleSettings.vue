@@ -5,7 +5,7 @@
     <hr>
     <p><b>ID:</b> {{ id }} </p>
     <p><b>Fecha:</b> {{ date }}</p>
-    <input type="date" id="date">
+    <input type="date" id="date" v-bind:value="properDate">
     <p><b>Autor:</b> {{ author }}</p>
     <input type="text" id="author" autocomplete="off" v-bind:value="author">
     <p><b>Estado:</b></p>
@@ -29,7 +29,21 @@
 
 <script>
 export default {
-  props: ["id", "author", "date", "status", "location", "section", "tags"]
+  data: function() {
+    return {
+      properDate: this.date
+    }
+  },
+  created: function() {
+    this.checkDate(); //To verify yyyy-MM-dd format
+  },
+
+  props: ["id", "author", "date", "location", "section", "status", "tags"],
+  methods: {
+    checkDate: function() {
+      this.date.match(/\d\d\d\d-\d\d-\d\d/) ? true : this.properDate = "2019-01-01";
+    },
+  }
 }
 </script>
 

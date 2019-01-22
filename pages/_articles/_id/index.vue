@@ -3,13 +3,13 @@
     <ArticleSettings
 
     v-bind:style="{marginRight: marginBar + 'px'}"
+    v-bind:id="articlesData.ID"
+    v-bind:author="articlesData.ARTICLE.Author"
+    v-bind:date="articlesData.ARTICLE.DT"
     v-bind:location="articlesData.ARTICLE.Location"
     v-bind:section="articlesData.ARTICLE.Section"
-    v-bind:tags="articlesData.ARTICLE.Tags"
-    v-bind:id="articlesData.ID"
-    v-bind:date="articlesData.ARTICLE.DT"
-    v-bind:author="articlesData.ARTICLE.Author"
     v-bind:status="articlesData.ARTICLE.PublishStatus"
+    v-bind:tags="articlesData.ARTICLE.Tags"
     />
 
     <input type="button" class="button-toggle" v-on:click="toggleBar()" value="+">
