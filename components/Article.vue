@@ -1,7 +1,7 @@
 <template>
 <!-- nuxt-link makes the component to be clickable and links the article to the editor page -->
-  <nuxt-link v-bind:to="'/articles/' + id">
-    <article class="article-card">
+  <article class="article-card">
+    <nuxt-link v-bind:to="'/articles/' + id">
       <div class="article-card-data">
       <!-- <div class="thumbnail" v-bind:style="{backgroundImage: 'url(' + thumbnail + ')'}"></div> -->
       <!-- <div class="thumbnail" style="background-image:url(http://jewel1067.com/wp-content/uploads/news.jpg);"></div> -->
@@ -13,9 +13,9 @@
       <div class="status-circle" v-bind:style="{ backgroundColor: statusColor }"></div>
       </div>
       </div>
-    </article>
+    </nuxt-link>
     <hr>
-  </nuxt-link>
+  </article>
 </template>
 
 <script>
@@ -51,17 +51,20 @@ export default {
 
 <style scoped>
 #card-title {
-  font-size: 26px;
+  color: #444;
+  font-size: 18px;
   font-family: 'Segoe UI';
   font-weight: bold;
 }
 
 #card-author {
   font-size: 18px;
+  color: rgb(61, 61, 61);
+  font-weight: bold;
 }
 
 #card-date {
-  color: #888888;
+  color: #888;
 }
 
 #card-status {
@@ -93,8 +96,9 @@ export default {
 }
 
 hr {
+  margin: 0 auto 0 auto;
   border: 0.5px solid #dddddd;
-  margin: 0 50px 0 50px;
+  width: 100%;
 }
 
 small {
@@ -106,7 +110,8 @@ small {
 .article-card-data {
   display: grid;
   grid-template-columns: 60% 40%;
-  margin: 0 20% 0 20%;
+  /* margin: 0 20% 0 20%; */
+  padding: 20px;
   align-items: center;
   align-content: center;
 }
@@ -117,7 +122,9 @@ a {
 }
 
 .article-card {
-  padding: 20px 0 20px;
+  margin: 0 auto 0 auto;
+  width: 60%;
+  min-width: 500px;
 }
 
 .article-card:hover {

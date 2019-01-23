@@ -4,9 +4,9 @@
     <h1>Configuración de artículo</h1>
     <hr>
     <p><b>ID:</b> {{ id }} </p>
-    <p><b>Fecha:</b> {{ date }}</p>
+    <p><b>Fecha:</b></p>
     <input type="date" id="date" v-bind:value="properDate">
-    <p><b>Autor:</b> {{ author }}</p>
+    <p><b>Autor:</b></p>
     <input type="text" id="author" autocomplete="off" v-bind:value="author">
     <p><b>Estado:</b></p>
     <select id="status" v-bind:value="status">
@@ -24,7 +24,8 @@
     <p><b>Etiquetas:</b></p>
     <input type="text" id="tags" autocomplete="off" v-bind:value="tags">
     <hr>
-    <input class="update-button" type="button" value="ACTUALIZAR" v-on:click="$parent.updateInfo()">
+    <button class="update-button" type="button" v-on:click="$parent.updateArticle($route.params.id)">ACTUALIZAR</button>
+    <button class="delete-button" type="button" v-on:click="$parent.deleteArticle()">ELIMINAR</button>
   </div>
   </div>
 </template>
@@ -57,7 +58,10 @@ p {
 }
 
 input, select {
+  height: 30px;
   width: 100%;
+  border: none;
+  outline: none;
 }
 
 h1 {
@@ -65,19 +69,31 @@ h1 {
   font-size: 20px;
 }
 
-.update-button {
-  font-size: 12x;
+.update-button, .delete-button {
   padding: 8px 0 8px 0;
   font-weight: bold;
   color: white;
   border: none;
+}
+
+.update-button {
+  width: 100%;
+  font-size: 12x;
   background-image: linear-gradient(rgb(58, 146, 228), rgb(17, 48, 151));
+}
+
+.delete-button {
+  font-size: 10px;
+  display: block;
+  margin: 30px auto auto auto;
+  width: 100px;
+  background-image: linear-gradient(rgb(228, 58, 58), rgb(151, 17, 17));
 }
 
 .article-bar {
   transition: .7s;
-  color: white;
-  background-color: rgb(17, 17, 17);
+  color: #2C3E50;
+  background-color: #ECF0F1;
   height: 100%;
   position: fixed;
   right: 0;

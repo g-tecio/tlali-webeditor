@@ -4,10 +4,8 @@
       <img src="@/assets/logo.png" alt="Tlali">
       </nuxt-link>
       <ul>
-        <li><nuxt-link class="nav-link" to="/Articulos/">Todos</nuxt-link></li>
-        <li><nuxt-link class="nav-link" to="/Aprobados">Aprobados</nuxt-link></li>
-        <li><nuxt-link class="nav-link" to="/Pendientes">Pendientes</nuxt-link></li>
-        <li><nuxt-link class="nav-link" to="/Rechazados">Rechazados</nuxt-link></li>
+        <li><nuxt-link class="nav-link" to="/Articulos/Nuevo">Nueva historia</nuxt-link></li>
+        <li><nuxt-link class="nav-link" to="/Articulos/">Artículos</nuxt-link></li>
       </ul>
     </nav>
 </template>
@@ -16,19 +14,23 @@
 img {
   display: block;
   margin: 20px auto 20px auto;
-  width: 100px;
-}
-
-li {
-  list-style: none;
+  width: 150px;
 }
 
 ul {
   padding: 0;
 }
 
+li {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  list-style: none;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
 .sidebar {
-  background-color: #111;
+  background-color: #3498DB;
   height: 100%;
   position: fixed;
   text-align: center;
@@ -43,7 +45,8 @@ ul {
 }
 
 .nav-link:hover {
-  color:black;
-  background-color: white;
+  transition: 0.5s;
+  /* color:black; */
+  background-color: #FFFFFF30;
 }
 </style>
