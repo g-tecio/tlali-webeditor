@@ -1,17 +1,15 @@
 <template>
   <section class="articles">
-    <h1> {{ $route.params.articles }} </h1>
+    <h1>Historias</h1>
 
-      <!-- Whenever searchRecords is emmited from the child component SearchBox,
-      execute searchArticles from this index.vue component-->
-
-    <SearchBox
-      v-on:searchRecords="searchArticles"/>
+    <ArticlesFilter
+      v-on:searchRecords="filterBySearch"
+      v-on:filterStatus="filterByStatus" />
 
     <hr>
 
     <Article
-      v-for="article in articlesList"
+      v-for="article in processedList"
       v-bind:key="article.ID"
       v-bind:id="article.ID"
       v-bind:author="article.ARTICLE.Author"
@@ -23,70 +21,74 @@
 
 <script>
 import Article from "@/components/Article";
-import SearchBox from "@/components/SearchBox";
+import ArticlesFilter from "@/components/ArticlesFilter";
 
 export default {
   name: 'MainApp',
 
   data: function() {
     return {
-      searchTerms: ''
+      processedList: [],
+      tempList: [],
     }
   },
+
+  created: function() {
+    this.processedList = this.articlesData;
+    this.tempList = this.articlesData;
+},
 
   components: {
     Article,
-    SearchBox
+    ArticlesFilter
+  },
+
+async asyncData({ $axios }) {
+  const apiURL = "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/";
+  const articlesData = await $axios.$get(apiURL);
+  return { articlesData };
   },
 
   methods: {
-    searchArticles: function(terms) {
-      this.searchTerms = terms;
-    }
-  },
-
-  computed: {
-    // Return articleList according to the search terms from the search box.
-    // If terms is empty, then return full list of articles.
-    articlesList: function() {
-      return this.articlesData.filter(function(item) {
+    filterBySearch: function(terms) {
+      this.processedList = this.tempList.filter(function(item) {
         return ( //If any of the following matchs returns true, the article is added to articleList
-          (item.ARTICLE.Title.toLowerCase().match(this.searchTerms.toLowerCase())) || //Search on the Title
-          (item.ARTICLE.Author.toLowerCase().match(this.searchTerms.toLowerCase())) //Search on the Author
+          (item.ARTICLE.Title.toLowerCase().match(terms.toLowerCase())) || //Search on the Title
+          (item.ARTICLE.Author.toLowerCase().match(terms.toLowerCase())) //Search on the Author
         )
-      }.bind(this));
-    }
-  },
+      });
+    },
 
-async asyncData({ $axios, params }) {
-    if(params.articles == "Articulos") {
-      const articlesData = await $axios.$get(
-        "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/");
-      return { articlesData };
-    } else {
-        const articlesData = await $axios.$get(
-          "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/publishstatus/" + params.articles.slice(0, -1)); //Trim the last letter to make correct URL
-        return { articlesData };
-    }
+    filterByStatus: function(status) {
+      this.processedList = this.articlesData.filter(function(item) {
+        return (
+          (item.ARTICLE.PublishStatus.match(status))
+        )
+      });
+      this.tempList = this.processedList;
+    },
+
+    // orderBy: function() {
+      
+    //   }
   }
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Courgette');
 .articles {
   margin-left: 200px;
 }
 
 hr {
   border: 0.5px solid #dddddd;
-  margin: 0;
+  /* margin: 0; */
+  width: 70%;
 }
 
 h1 {
   font-size: 40px;
   padding: 30px 0 30px 0;
-  font-family: 'Courgette', cursive;
   text-align: center;
 }
 </style>

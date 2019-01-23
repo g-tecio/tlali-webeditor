@@ -11,7 +11,7 @@
     v-bind:status="articlesData.ARTICLE.PublishStatus"
     v-bind:tags="articlesData.ARTICLE.Tags"
     />
-    <input type="button" class="button-toggle" v-on:click="toggleBar()" value="MÁS">
+    <img src="@/assets/config.png" class="button-toggle" v-on:click="toggleBar()">
 
     <input type="text" id="title" placeholder="Título" autocomplete="off" v-bind:value="articlesData.ARTICLE.Title">
     <textarea id="content" class="autoExpand" placeholder="Comienza aquí..." v-bind:value="articlesData.ARTICLE.Content" rows="7" cols="50"></textarea>
@@ -38,40 +38,56 @@ export default {
     }
   },
 
+  async asyncData({ $axios, params }) { //Fetch the data from a single article, given the ID
+    const apiURL = "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/";
+
+    console.log("Conecting to: " + apiURL + params.id);
+    const articlesData = await $axios.$get(apiURL + params.id);
+
+    console.log("Data fechted succesfully!");
+    return { articlesData, apiURL };
+  },
+
   methods: {
-    updateInfo: function() { //Called by the button
-      console.log("Button clicked, processing data...");
-      console.log(this.buildJSON());
-      this.postData(this.buildJSON()); //Call POST
-    },
-
-    toggleBar: function() {
-      this.showBar ? this.showBar = false : this.showBar = true;
-      this.toggleMargin();
-    },
-
-    toggleMargin: function() {
-      if (this.showBar) {
-        this.marginMain = 250;
-        this.marginBar = 0;
+    updateArticle: function(isNew) {
+      if(isNew == "Nuevo"){
+        this.createData(this.buildJSON());
       } else {
-        this.marginMain = 0;
-        this.marginBar = -250;
+        this.updateData(this.buildJSON());
       }
     },
 
-    async postData(articleJSON) {
-      console.log("https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/" + this.$route.params.id);
-      this.$axios.$put('https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/' + this.$route.params.id,
-      articleJSON).then(function (response) {
+    deleteArticle: function() {
+      this.deleteData();
+    },
+
+    createData(articleJSON) {
+      console.log("POST: " + this.apiURL);
+      this.$axios.$post(this.apiURL, articleJSON).then(function (response) {
         console.log(response);
-      })
-      .catch(function (error) {
+      }).catch(function (error) {
         console.log(error);
       });
     },
 
-//Build an object with the data from the form, return it as articleData
+    updateData(articleJSON) {
+      console.log("PUT: " + this.apiURL + this.$route.params.id);
+      this.$axios.$put(this.apiURL + this.$route.params.id, articleJSON).then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
+    deleteData() {
+      console.log("DELETE: " + this.apiURL + this.$route.params.id);
+      this.$axios.$delete(this.apiURL + this.$route.params.id).then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
     buildJSON: function() {
       var articleData = {
         // ID:             this.articlesData.ID,
@@ -95,18 +111,23 @@ export default {
         }
       };
       return articleData;
+    },
+
+    toggleBar: function() {
+      this.showBar ? this.showBar = false : this.showBar = true;
+      this.toggleMargin();
+    },
+
+    toggleMargin: function() {
+      if (this.showBar) {
+        this.marginMain = 250;
+        this.marginBar = 0;
+      } else {
+        this.marginMain = 0;
+        this.marginBar = -250;
+      }
     }
   },
-
-  async asyncData({ $axios, params }) { //Fetch the data from a single article, given the ID
-    const url =
-      "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/" +
-      params.id;
-    console.log(url);
-    const articlesData = await $axios.$get(url);
-    console.log("Data fechted");
-    return { articlesData };
-  }
 };
 </script>
 
@@ -134,14 +155,10 @@ export default {
 }
 
 .button-toggle {
-  font-weight: bolder;
   float: right;
-  margin: 20px 0 20px 0;
+  margin-top: 20px;
   height: 30px;
-  font-size: 15px;
-  color: rgb(84, 108, 218);
-  width: 70px;
-  background-color: #ebebeb;
+  width: 30px;
 }
 
 input,
