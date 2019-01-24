@@ -1,16 +1,13 @@
 <template>
-<!-- nuxt-link makes the component to be clickable and links the article to the editor page -->
   <article class="article-card">
-    <nuxt-link v-bind:to="'/articles/' + id">
+    <nuxt-link v-bind:to="'/articles/' + singleArticle.id">
       <div class="article-card-data">
-      <!-- <div class="thumbnail" v-bind:style="{backgroundImage: 'url(' + thumbnail + ')'}"></div> -->
-      <!-- <div class="thumbnail" style="background-image:url(http://jewel1067.com/wp-content/uploads/news.jpg);"></div> -->
-      <p class="card-left" id="card-title">{{ title }}</p>
-      <p class="card-right" id="card-date">creado el {{ date }}</p>
-      <p class="card-left" id="card-author"><small>POR</small> {{ author }}</p>
+      <p class="card-left" id="card-title">{{ singleArticle.article.title }}</p>
+      <p class="card-right" id="card-date">creado el {{ singleArticle.dt }}</p>
+      <p class="card-left" id="card-author"><small>POR</small> {{ singleArticle.author }}</p>
       <div class="status-data">
-      <p class="card-right" id="card-status">{{ status }}</p>
-      <div class="status-circle" v-bind:style="{ backgroundColor: statusColor }"></div>
+      <p class="card-right" id="card-status">{{ singleArticle.publishStatus }}</p>
+      <div class="status-circle" v-bind:style="{ backgroundColor: status }"></div>
       </div>
       </div>
     </nuxt-link>
@@ -21,28 +18,30 @@
 <script>
 export default {
   name: 'ArticleCard',
-  //Values expected by this component, passed from the parent @pages/articles/index.vue
-  //Ready to be used on <template>
-  props: ["id", "author", "title", "date", "status"],
+
+  props: ["singleArticle"],
+
   data: function() {
     return {
-      statusColor: 'red'
+      status: ''
     }
   },
+  
   created: function() {
+    this.status = this.singleArticle.publishStatus;
     this.setStatusColor();
   },
 
   methods: {
     setStatusColor: function() {
       if(this.status == "Aprobado") {
-        this.statusColor = "green";
+        this.status = "green";
       } else if(this.status == "Pendiente") {
-        this.statusColor = "yellow";
+        this.status = "yellow";
       } else if(this.status == "Rechazado") {
-        this.statusColor = "red";
+        this.status = "red";
       } else {
-        this.statusColor = "blue";
+        this.status = "blue";
       }
     }
   }
@@ -109,7 +108,7 @@ small {
 
 .article-card-data {
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 70% 30%;
   /* margin: 0 20% 0 20%; */
   padding: 20px;
   align-items: center;

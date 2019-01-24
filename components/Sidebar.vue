@@ -10,6 +10,13 @@
     </nav>
 </template>
 
+<script>
+export default {
+  name: "NavigationBar"
+}
+</script>
+
+
 <style scoped>
 img {
   display: block;

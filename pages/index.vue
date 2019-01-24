@@ -5,6 +5,13 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'Welcome-Page'
+}
+</script>
+
+
 <style scoped>
 h1,
 p {
