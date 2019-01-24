@@ -1,29 +1,35 @@
 <template>
   <section class="article-data" v-bind:style="{marginRight:marginMain + 'px'}">
-    <ArticleSettings
-
-    v-bind:style="{marginRight: marginBar + 'px'}"
-    v-bind:id="articlesData.ID"
-    v-bind:author="articlesData.ARTICLE.Author"
-    v-bind:date="articlesData.ARTICLE.DT"
-    v-bind:location="articlesData.ARTICLE.Location"
-    v-bind:section="articlesData.ARTICLE.Section"
-    v-bind:status="articlesData.ARTICLE.PublishStatus"
-    v-bind:tags="articlesData.ARTICLE.Tags"
-    />
     <img src="@/assets/config.png" class="button-toggle" v-on:click="toggleBar()">
+    <ArticleSettings
+    v-bind:style="{marginRight: marginBar + 'px'}"
+    v-bind:id="singleArticle.id"
+    v-bind:author="singleArticle.author"
+    v-bind:dateGiven="singleArticle.dt"
+    v-bind:location="singleArticle.location"
+    v-bind:s3dir="singleArticle.s3Dir"
+    v-bind:section="singleArticle.article.section"
+    v-bind:status="singleArticle.publishStatus"
+    v-bind:tags="singleArticle.article.tags"
+    />
 
-    <input type="text" id="title" placeholder="Título" autocomplete="off" v-bind:value="articlesData.ARTICLE.Title">
-    <textarea id="content" class="autoExpand" placeholder="Comienza aquí..." v-bind:value="articlesData.ARTICLE.Content" rows="7" cols="50"></textarea>
+    <Editor
+    v-bind:title="singleArticle.article.title"
+    v-bind:content="singleArticle.article.content"
+    />
   </section>
 </template>
 
 <script>
 import ArticleSettings from '@/components/ArticleSettings'
+import Editor from '@/components/Editor'
 
 export default {
+  name: "ArticleEditor",
+  
   components: {
-    ArticleSettings
+    ArticleSettings,
+    Editor
   },
 
   created: function() {
@@ -34,26 +40,69 @@ export default {
     return {
       showBar: true,
       marginMain: 250,
-      marginBar: 0
+      marginBar: 0,
+      articleData:
+        {
+          dt : "",
+          author : "",
+          location : "",
+          publishStatus : "",
+          s3Dir : "",
+          article : {
+            content : "",
+            section : "",
+            tags : "",
+            title : ""
+          }
+        },
+
+      deleteInfo:
+        {
+          id: "1",
+          dt : "1",
+          author : "1",
+          location : "1",
+          publishStatus : "1",
+          s3Dir : "1",
+          article : {
+            content : "1",
+            section : "1",
+            tags : "1",
+            title : "1"
+          }
+        },
     }
   },
 
-  async asyncData({ $axios, params }) { //Fetch the data from a single article, given the ID
+  async asyncData({ $axios, params }) {
     const apiURL = "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/";
 
     console.log("Conecting to: " + apiURL + params.id);
-    const articlesData = await $axios.$get(apiURL + params.id);
+    const singleArticle = await $axios.$get(apiURL + params.id);
 
-    console.log("Data fechted succesfully!");
-    return { articlesData, apiURL };
+    console.log("Data fechted successfully!");
+    return { singleArticle, apiURL };
   },
 
   methods: {
+    escapeJSON: function (str) {
+      return str
+        .replace(/[\"]/g, '\\"')
+        .replace(/[\\]/g, '\\\\')
+        .replace(/[\/]/g, '\\/')
+        .replace(/[\b]/g, '\\b')
+        .replace(/[\f]/g, '\\f')
+        .replace(/[\n]/g, '\\n')
+        .replace(/[\r]/g, '\\r')
+        .replace(/[\t]/g, '\\t');
+    },
+
     updateArticle: function(isNew) {
+      this.buildJSON()
       if(isNew == "Nuevo"){
-        this.createData(this.buildJSON());
+        this.createData();
       } else {
-        this.updateData(this.buildJSON());
+        this.updateData();
       }
     },
 
@@ -61,18 +110,20 @@ export default {
       this.deleteData();
     },
 
-    createData(articleJSON) {
+    createData() {
       console.log("POST: " + this.apiURL);
-      this.$axios.$post(this.apiURL, articleJSON).then(function (response) {
+
+      this.$axios.$post(this.apiURL, this.articleData).then(function (response) {
         console.log(response);
       }).catch(function (error) {
         console.log(error);
       });
     },
 
-    updateData(articleJSON) {
+    updateData() {
       console.log("PUT: " + this.apiURL + this.$route.params.id);
-      this.$axios.$put(this.apiURL + this.$route.params.id, articleJSON).then(function (response) {
+
+      this.$axios.$put(this.apiURL + this.$route.params.id, this.articleData).then(function (response) {
         console.log(response);
       }).catch(function (error) {
         console.log(error);
@@ -81,7 +132,11 @@ export default {
 
     deleteData() {
       console.log("DELETE: " + this.apiURL + this.$route.params.id);
-      this.$axios.$delete(this.apiURL + this.$route.params.id).then(function (response) {
+      // this.deleteInfo.id = this.singleArticle.id;
+      this.deleteInfo.dt = this.singleArticle.dt;
+      console.log(this.deleteInfo);
+
+      this.$axios.$delete(this.apiURL + this.$route.params.id, this.deleteInfo).then(function (response) {
         console.log(response);
       }).catch(function (error) {
         console.log(error);
@@ -89,28 +144,17 @@ export default {
     },
 
     buildJSON: function() {
-      var articleData = {
-        // ID:             this.articlesData.ID,
-        ARTICLE: {
-          // Author:         this.articlesData.ARTICLE.Author,
-          Author:         document.getElementById("author").value,
-          Content:        document.getElementById("content").value,
-          DT:             document.getElementById("date").value,
-          // DT:             this.articlesData.ARTICLE.DT,
-          Location:       document.getElementById("location").value,
-          PublishStatus:  document.getElementById("status").value,
-          Section:        document.getElementById("section").value,
-          Tags:           document.getElementById("tags").value,
-          Title:          document.getElementById("title").value
-        },
-        IMG: {
-          Author: "Test Author",
-          DT: "Date Test",
-          Location: "Location Test",
-          S3DIR: "Test dir"
-        }
-      };
-      return articleData;
+      console.log("building");
+      this.articleData.dt =                     this.singleArticle.dt;
+      this.articleData.author =                 document.getElementById("author").value;
+      this.articleData.location =               document.getElementById("location").value;
+      this.articleData.publishStatus =          document.getElementById("status").value;
+      this.articleData.s3Dir =                  "-";
+      this.articleData.article.content =        document.getElementById("content").value;
+      this.articleData.article.section =        document.getElementById("section").value;
+      this.articleData.article.tags =           document.getElementById("tags").value;
+      this.articleData.article.title =          document.getElementById("title").value;
+      console.log(this.articleData);
     },
 
     toggleBar: function() {
@@ -136,15 +180,6 @@ export default {
   display: inline;
 }
 
-#title {
-  font-size: 30px;
-  font-weight: bolder;
-}
-
-#content {
-  font-size: 20px;
-}
-
 .article-data {
   transition: .7s;
   margin-left: 200px;
@@ -159,22 +194,5 @@ export default {
   margin-top: 20px;
   height: 30px;
   width: 30px;
-}
-
-input,
-textarea {
-  box-sizing: border-box;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  border: none;
-  /* border: 1px solid #cccccc; */
-  outline: none;
-  width: 100%;
-  margin-block-start: 2px;
-  margin-block-end: 2px;
-}
-
-textarea {
-  resize: none;
-  height: 80vh;
 }
 </style>

@@ -5,7 +5,7 @@
     <hr>
     <p><b>ID:</b> {{ id }} </p>
     <p><b>Fecha:</b></p>
-    <input type="date" id="date" v-bind:value="properDate">
+    <input type="text" id="date" v-bind:value="dateGiven" disabled>
     <p><b>Autor:</b></p>
     <input type="text" id="author" autocomplete="off" v-bind:value="author">
     <p><b>Estado:</b></p>
@@ -23,7 +23,10 @@
 
     <p><b>Etiquetas:</b></p>
     <input type="text" id="tags" autocomplete="off" v-bind:value="tags">
+
+    <p><b>Imagen:</b> {{ s3dir }} </p>
     <hr>
+    <!-- <button class="update-button" type="button" v-on:click="checkUpdate">ACTUALIZAR</button> -->
     <button class="update-button" type="button" v-on:click="$parent.updateArticle($route.params.id)">ACTUALIZAR</button>
     <button class="delete-button" type="button" v-on:click="$parent.deleteArticle()">ELIMINAR</button>
   </div>
@@ -32,22 +35,39 @@
 
 <script>
 export default {
-  data: function() {
-    return {
-      properDate: this.date
-    }
-  },
-  created: function() {
-    this.checkDate(); //To verify yyyy-MM-dd format
-  },
+  name: "ArticleConfig",
+  
+  props: ["id", "author", "dateGiven", "location", "s3dir", "section", "status", "tags"],
 
-  props: ["id", "author", "date", "location", "section", "status", "tags"],
-  methods: {
-    checkDate: function() {
-      this.date.match(/\d\d\d\d-\d\d-\d\d/) ? true : this.properDate = "2019-01-01";
-    },
-  }
-}
+  // data: function() {
+  //   return {
+  //     date: this.dateGiven,
+  //   }
+  // },
+
+  // methods: {
+  //   checkUpdate: function() {
+  //   this.dateGiven == '' ? this.createDate() : this.date = this.dateGiven;
+  //     console.log("Date of creation: " + this.date);
+  //     this.$parent.updateArticle(this.$route.params.id)
+  //   },
+
+    // createDate: function() {
+    //   var today = new Date();
+    //   this.date = today.getFullYear()
+    //     + '-' + this.pad((today.getMonth() + 1), 2)
+    //     + '-' + this.pad(today.getDate(), 2)
+    //     + ' ' + this.pad(today.getHours(), 2)
+    //     + ':' + this.pad(today.getMinutes(), 2)
+    //     + ':' + this.pad(today.getSeconds(), 2);
+    // },
+
+  //   pad: function(n, width) {
+  //     n = n + '';
+  //     return n.length >= width ? n : new Array(width - n.length + 1).join(0) + n;
+  //   }
+  // }
+};
 </script>
 
 

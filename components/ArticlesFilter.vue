@@ -1,43 +1,57 @@
 <template>
   <div class="filters-box">
-    <input type="text" placeholder="Buscar..." v-model="searchTerm">
+
   <div class="selectors">
-    <select class="status" v-model="currentStatus">
+    <input type="text" placeholder="Buscar..." v-model="searchTerm">
+    <select class="status" v-model="statusFilter">
       <option value="">Todos</option>
       <option value="Aprobado">Aprobados</option>
       <option value="Pendiente">Pendientes</option>
       <option value="Rechazado">Rechazados</option>
     </select>
 
-    <select class="sort-by" v-model="currentSort">
+    <select class="sort-by" v-model="sortFilter">
       <option value="Title">Título</option>
       <option value="Date">Fecha</option>
     </select>
-    <select class="order" v-model="currentOrder">
+
+    <select class="order" v-model="sortOrder">
       <option value="asc">Ascendente</option>
       <option value="desc">Descendente</option>
     </select>
   </div>
+
   </div>
 </template>
 
 <script>
 export default {
+  name: "Filtering",
+
   data: function() {
     return {
       searchTerm: '',
-      currentStatus: '',
-      currentSort: 'Date',
-      currentOrder: 'asc'
+      statusFilter: '',
+      sortFilter: 'Date',
+      sortOrder: 'asc'
     }
   },
+
   watch: {
     searchTerm: function() {
-      this.$emit('searchRecords', this.searchTerm);
+      this.$parent.filterBySearch(this.searchTerm);
     },
 
-    currentStatus: function() {
-      this.$emit('filterStatus', this.currentStatus);
+    statusFilter: function() {
+      this.$parent.filterByStatus(this.statusFilter);
+    },
+
+    sortFilter: function() {
+      this.$parent.setSortKey(this.sortFilter);
+    },
+
+    sortOrder: function() {
+      this.$parent.setSortOrder(this.sortOrder);
     }
   }
 }
@@ -52,8 +66,14 @@ export default {
   min-width: 200px;
 }
 
+.selectors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 select {
-  margin: 10px 5px 10px 5px;
+  margin: 10px;
   height: 40px;
   width: 140px;
 }

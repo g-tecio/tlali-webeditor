@@ -2,34 +2,30 @@
   <section class="articles">
     <h1>Historias</h1>
 
-    <ArticlesFilter
-      v-on:searchRecords="filterBySearch"
-      v-on:filterStatus="filterByStatus" />
+    <ArticlesFilter />
 
     <hr>
 
-    <Article
+    <ArticleCard
       v-for="article in processedList"
-      v-bind:key="article.ID"
-      v-bind:id="article.ID"
-      v-bind:author="article.ARTICLE.Author"
-      v-bind:title="article.ARTICLE.Title"
-      v-bind:date="article.ARTICLE.DT"
-      v-bind:status="article.ARTICLE.PublishStatus" />
+      v-bind:key="article.id"
+      v-bind:singleArticle="article" />
   </section>
 </template>
 
 <script>
-import Article from "@/components/Article";
+import ArticleCard from "@/components/ArticleCard";
 import ArticlesFilter from "@/components/ArticlesFilter";
 
 export default {
-  name: 'MainApp',
+  name: 'ArticleList',
 
   data: function() {
     return {
       processedList: [],
       tempList: [],
+      sortKey: '',
+      sortOrder: ''
     }
   },
 
@@ -39,7 +35,7 @@ export default {
 },
 
   components: {
-    Article,
+    ArticleCard,
     ArticlesFilter
   },
 
@@ -49,29 +45,45 @@ async asyncData({ $axios }) {
   return { articlesData };
   },
 
-  methods: {
-    filterBySearch: function(terms) {
-      this.processedList = this.tempList.filter(function(item) {
-        return ( //If any of the following matchs returns true, the article is added to articleList
-          (item.ARTICLE.Title.toLowerCase().match(terms.toLowerCase())) || //Search on the Title
-          (item.ARTICLE.Author.toLowerCase().match(terms.toLowerCase())) //Search on the Author
-        )
-      });
-    },
+methods: {
+  filterBySearch: function(terms) {
+    this.processedList = this.tempList.filter(function(item) {
+      return ( //If any of the following matchs returns true, the article is added to articleList
+        (item.article.title.toLowerCase().match(terms.toLowerCase())) || //Search on the Title
+        (item.author.toLowerCase().match(terms.toLowerCase())) //Search on the Author
+      )
+    });
+  },
 
-    filterByStatus: function(status) {
-      this.processedList = this.articlesData.filter(function(item) {
-        return (
-          (item.ARTICLE.PublishStatus.match(status))
-        )
-      });
-      this.tempList = this.processedList;
-    },
+  filterByStatus: function(status) {
+    this.processedList = this.articlesData.filter(function(item) {
+      return (
+        (item.publishStatus.match(status))
+      )
+    });
+    this.tempList = this.processedList;
+  },
 
-    // orderBy: function() {
-      
-    //   }
+  setSortKey: function(sortSent) {
+    this.sortKey = sortSent;
+    this.orderBy();
+  },
+
+  setSortOrder: function(orderSent) {
+    this.sortOrder = orderSent;
+    this.orderBy();
+  },
+
+  orderBy: function() {
+    processedList = processedList.sort(function(a, b) {
+      if (asc) {
+        return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+      } else {
+        return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+      }
+    });
   }
+}
 };
 </script>
 
