@@ -35,3 +35,7 @@ CMD [ "npm", "start"]
 #sudo docker build -t tlaliviewer -f Dockerfile .
 #sudo docker run -it --rm -d -p 3000:3000 --name tlv tlaliviewer
 #We are naming the docker run with "tlv" just in case we want to kill it, we know the name and its not random
+<<<<<<< HEAD
+=======
+
+>>>>>>> aa960e45f06b7d13270c1723f947ff1968ca99b6
