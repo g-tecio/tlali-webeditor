@@ -13,23 +13,27 @@
     v-bind:tags="singleArticle.article.tags"
     />
 
-    <Editor
+    <MediumEditor :text="content" :options='options' custom-tag='div'/>
+
+    <!-- <Editor
     v-bind:title="singleArticle.article.title"
     v-bind:content="singleArticle.article.content"
-    />
+    /> -->
   </section>
 </template>
 
 <script>
 import ArticleSettings from '@/components/ArticleSettings'
 import Editor from '@/components/Editor'
+import MediumEditor from 'vue2-medium-editor'
 
 export default {
   name: "ArticleEditor",
   
   components: {
     ArticleSettings,
-    Editor
+    Editor,
+    MediumEditor
   },
 
   created: function() {
@@ -39,6 +43,8 @@ export default {
   data: function() {
     return {
       showBar: true,
+      content: '<p>A Vue 2 component for the the dead simple inline editor toolbar by <a href="https://yabwe.github.io/medium-editor/" target="_blank">yabwe</a>.</p>' +
+          '<p><span class="highlight animated shake">Try highlighting this text.</span></p>',
       marginMain: 250,
       marginBar: 0,
       articleData:
@@ -55,6 +61,9 @@ export default {
             title : ""
           }
         },
+      options: {
+        toolbar: {buttons: ['bold', 'strikethrough', 'h1']}
+      }
     }
   },
 
