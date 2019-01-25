@@ -96,7 +96,6 @@ export default {
 
     createData() {
       console.log("POST: " + this.apiURL);
-
       this.$axios.$post(this.apiURL, this.articleData).then(function (response) {
         console.log(response);
       }).catch(function (error) {
@@ -135,8 +134,21 @@ export default {
       this.articleData.article.section =        document.getElementById("section").value;
       this.articleData.article.tags =           document.getElementById("tags").value;
       this.articleData.article.title =          document.getElementById("title").value;
-      console.log(this.articleData);
+      console.log(JSON.stringify(this.articleData));
     },
+    // buildJSON: function() {
+    //   console.log("building");
+    //   this.articleData.dt =                     this.singleArticle.dt;
+    //   this.articleData.author =                 this.escapeJSON(document.getElementById("author").value);
+    //   this.articleData.location =               this.escapeJSON(document.getElementById("location").value);
+    //   this.articleData.publishStatus =          document.getElementById("status").value;
+    //   this.articleData.s3Dir =                  "-";
+    //   this.articleData.article.content =        this.escapeJSON(document.getElementById("content").value);
+    //   this.articleData.article.section =        document.getElementById("section").value;
+    //   this.articleData.article.tags =           document.getElementById("tags").value;
+    //   this.articleData.article.title =          this.escapeJSON(document.getElementById("title").value);
+    //   console.log(JSON.stringify(this.articleData));
+    // },
 
     toggleBar: function() {
       this.showBar ? this.showBar = false : this.showBar = true;

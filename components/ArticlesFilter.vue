@@ -11,13 +11,13 @@
     </select>
 
     <select class="sort-by" v-model="sortFilter">
-      <option value="article.title">Título</option>
-      <option value="dt">Fecha</option>
+      <option value="title">Título</option>
+      <option value="date">Fecha</option>
     </select>
 
     <select class="order" v-model="sortOrder">
-      <option value="true">Ascendente</option>
-      <option value="">Descendente</option>
+      <option value="asc">Ascendente</option>
+      <option value="desc">Descendente</option>
     </select>
   </div>
 
@@ -32,8 +32,8 @@ export default {
     return {
       searchTerm: '',
       statusFilter: '',
-      sortFilter: 'dt',
-      sortOrder: 'true'
+      sortFilter: 'date',
+      sortOrder: 'desc'
     }
   },
 
