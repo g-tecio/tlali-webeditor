@@ -1,7 +1,6 @@
 <template>
   <div class="start-screen">
-  <h1>Página de inicio</h1>
-  <p>Bienvenido, usuario</p>
+  <h1>Enhancing editor</h1>
   <form class="login">
     <div class="wrap">
     <p class="label">Correo electrónico:</p>
