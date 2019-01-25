@@ -55,22 +55,6 @@ export default {
             title : ""
           }
         },
-
-      deleteInfo:
-        {
-          id: "1",
-          dt : "1",
-          author : "1",
-          location : "1",
-          publishStatus : "1",
-          s3Dir : "1",
-          article : {
-            content : "1",
-            section : "1",
-            tags : "1",
-            title : "1"
-          }
-        },
     }
   },
 
@@ -131,12 +115,9 @@ export default {
     },
 
     deleteData() {
-      console.log("DELETE: " + this.apiURL + this.$route.params.id);
-      // this.deleteInfo.id = this.singleArticle.id;
-      this.deleteInfo.dt = this.singleArticle.dt;
-      console.log(this.deleteInfo);
+      console.log("DELETE: " + this.apiURL + this.$route.params.id + '/' + this.singleArticle.dt);
 
-      this.$axios.$delete(this.apiURL + this.$route.params.id, this.deleteInfo).then(function (response) {
+      this.$axios.$delete(this.apiURL + this.$route.params.id + '/' + this.singleArticle.dt).then(function (response) {
         console.log(response);
       }).catch(function (error) {
         console.log(error);

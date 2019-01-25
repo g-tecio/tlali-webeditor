@@ -66,21 +66,21 @@ methods: {
 
   setSortKey: function(sortSent) {
     this.sortKey = sortSent;
-    this.orderBy();
+    this.sortArticles(this.sortKey);
   },
 
   setSortOrder: function(orderSent) {
     this.sortOrder = orderSent;
-    this.orderBy();
+    this.sortArticles(this.sortKey, this.sortOrder);
   },
 
-  orderBy: function() {
-    processedList = processedList.sort(function(a, b) {
-      if (asc) {
-        return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-      } else {
-        return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
-      }
+  sortArticles: function(key, asc) {
+    this.processedList = this.processedList.sort(function(a, b) {
+        if (asc) {
+          return (a[key] > b[key]) ? 1 : ((a[key] < b[key]) ? -1 : 0);
+        } else {
+          return (b[key] > a[key]) ? 1 : ((b[key] < a[key]) ? -1 : 0);
+        }
     });
   }
 }
