@@ -1,22 +1,20 @@
 <template>
   <div class="start-screen">
-  <h1>Enhancing editor</h1>
-  <form class="login">
-    <div class="wrap">
-    <p class="label">Correo electrónico:</p>
-    <input id="email" type="text">
-    <p class="label">Contraseña:</p>
-    <input id="password" type="text">
-    </div>
-  </form>
-  <p class="alert">(Not working...YET!)</p>
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/zEZJ_mLUNPc"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Welcome-Page'
-}
+  name: "Welcome-Page"
+};
 </script>
 
 
@@ -27,7 +25,7 @@ export default {
 
 .alert {
   font-size: 10px;
-  color: #AAAAAA;
+  color: #aaaaaa;
 }
 
 .login {
@@ -42,7 +40,7 @@ export default {
 }
 
 .label {
-  color:#aaa;
+  color: #aaa;
   font-size: 20px;
 }
 
@@ -53,11 +51,11 @@ export default {
 
 input {
   width: 100%;
-  height: 25px;;
+  height: 25px;
 }
 
 h1,
 p {
-text-align: center;
+  text-align: center;
 }
 </style>

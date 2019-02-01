@@ -15,7 +15,12 @@
 
     <div class="editor-box">
       <div class="editor-box-bg-color">
-        <input type="text" id="author" v-bind:value="{articleData.article.title}">
+        <input
+          type="text"
+          id="title"
+          placeholder="Título..."
+          v-bind:value="singleArticle.article.title"
+        >
         <hr>
         <MediumEditor id="vue-medium-editor" :text="content" :options="options" custom-tag="div"/>
       </div>
@@ -39,13 +44,7 @@ export default {
 
   created: function() {
     console.log("Page loaded");
-    this.content =
-      "<h2>" +
-      this.singleArticle.article.title +
-      "</h2>" +
-      "<p>" +
-      this.singleArticle.article.content +
-      "</p>";
+    this.content = "<p>" + this.singleArticle.article.content + "</p>";
   },
 
   data: function() {
@@ -173,7 +172,7 @@ export default {
         "section"
       ).value;
       this.articleData.article.tags = document.getElementById("tags").value;
-      this.articleData.article.title = "Made with Vue Medium Editor";
+      this.articleData.article.title = document.getElementById("title").value;
       console.log(JSON.stringify(this.articleData));
     },
     // buildJSON: function() {
@@ -217,6 +216,14 @@ export default {
   display: inline;
 }
 
+#title {
+  background: transparent;
+  width: 100%;
+  font-size: 24px;
+  border: none;
+  outline: none;
+}
+
 div {
   outline: none;
 }
@@ -228,10 +235,6 @@ div {
 .editor-box-bg-color {
   padding: 10px;
   background-color: #fafafa;
-}
-
-.editor-box h1 {
-  font-size: 24px;
 }
 
 .article-data {
