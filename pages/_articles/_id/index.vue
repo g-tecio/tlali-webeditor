@@ -2,34 +2,35 @@
   <section class="article-data" v-bind:style="{marginRight:marginMain + 'px'}">
     <img src="@/assets/config.png" class="button-toggle" v-on:click="toggleBar()">
     <ArticleSettings
-    v-bind:style="{marginRight: marginBar + 'px'}"
-    v-bind:id="singleArticle.id"
-    v-bind:author="singleArticle.author"
-    v-bind:dateGiven="singleArticle.dt"
-    v-bind:location="singleArticle.location"
-    v-bind:s3dir="singleArticle.s3Dir"
-    v-bind:section="singleArticle.article.section"
-    v-bind:status="singleArticle.publishStatus"
-    v-bind:tags="singleArticle.article.tags"
+      v-bind:style="{marginRight: marginBar + 'px'}"
+      v-bind:id="singleArticle.id"
+      v-bind:author="singleArticle.author"
+      v-bind:dateGiven="singleArticle.dt"
+      v-bind:location="singleArticle.location"
+      v-bind:s3dir="singleArticle.s3Dir"
+      v-bind:section="singleArticle.article.section"
+      v-bind:status="singleArticle.publishStatus"
+      v-bind:tags="singleArticle.article.tags"
     />
 
-    <MediumEditor :text="content" :options='options' custom-tag='div'/>
-
-    <!-- <Editor
-    v-bind:title="singleArticle.article.title"
-    v-bind:content="singleArticle.article.content"
-    /> -->
+    <div class="editor-box">
+      <div class="editor-box-bg-color">
+        <input type="text" id="author" v-bind:value="{articleData.article.title}">
+        <hr>
+        <MediumEditor id="vue-medium-editor" :text="content" :options="options" custom-tag="div"/>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
-import ArticleSettings from '@/components/ArticleSettings'
-import Editor from '@/components/Editor'
-import MediumEditor from 'vue2-medium-editor'
+import ArticleSettings from "@/components/ArticleSettings";
+import Editor from "@/components/Editor";
+import MediumEditor from "vue2-medium-editor";
 
 export default {
   name: "ArticleEditor",
-  
+
   components: {
     ArticleSettings,
     Editor,
@@ -38,37 +39,46 @@ export default {
 
   created: function() {
     console.log("Page loaded");
+    this.content =
+      "<h2>" +
+      this.singleArticle.article.title +
+      "</h2>" +
+      "<p>" +
+      this.singleArticle.article.content +
+      "</p>";
   },
 
   data: function() {
     return {
       showBar: true,
-      content: '<p>A Vue 2 component for the the dead simple inline editor toolbar by <a href="https://yabwe.github.io/medium-editor/" target="_blank">yabwe</a>.</p>' +
-          '<p><span class="highlight animated shake">Try highlighting this text.</span></p>',
+      content: "<h1>Título</h1><p>Comienza aquí</p>",
       marginMain: 250,
       marginBar: 0,
-      articleData:
-        {
-          dt : "",
-          author : "",
-          location : "",
-          publishStatus : "",
-          s3Dir : "",
-          article : {
-            content : "",
-            section : "",
-            tags : "",
-            title : ""
-          }
-        },
+      articleData: {
+        dt: "",
+        author: "",
+        location: "",
+        publishStatus: "",
+        s3Dir: "",
+        article: {
+          content: "",
+          section: "",
+          tags: "",
+          title: ""
+        }
+      },
       options: {
-        toolbar: {buttons: ['bold', 'strikethrough', 'h1']}
+        toolbar: { buttons: ["bold", "italic", "strikethrough", "h2"] },
+        placeholder: {
+          text: "Comienza aquí..."
+        }
       }
-    }
+    };
   },
 
   async asyncData({ $axios, params }) {
-    const apiURL = "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/";
+    const apiURL =
+      "https://o2dstvq9sb.execute-api.us-west-2.amazonaws.com/dev/articles/";
 
     console.log("Conecting to: " + apiURL + params.id);
     const singleArticle = await $axios.$get(apiURL + params.id);
@@ -78,21 +88,21 @@ export default {
   },
 
   methods: {
-    escapeJSON: function (str) {
-      return str
-        .replace(/[\"]/g, '\\"')
-        .replace(/[\\]/g, '\\\\')
-        .replace(/[\/]/g, '\\/')
-        .replace(/[\b]/g, '\\b')
-        .replace(/[\f]/g, '\\f')
-        .replace(/[\n]/g, '\\n')
-        .replace(/[\r]/g, '\\r')
-        .replace(/[\t]/g, '\\t');
-    },
+    // escapeJSON: function(str) {
+    //   return str
+    //     .replace(/[\"]/g, '\\"')
+    //     .replace(/[\\]/g, "\\\\")
+    //     .replace(/[\/]/g, "\\/")
+    //     .replace(/[\b]/g, "\\b")
+    //     .replace(/[\f]/g, "\\f")
+    //     .replace(/[\n]/g, "\\n")
+    //     .replace(/[\r]/g, "\\r")
+    //     .replace(/[\t]/g, "\\t");
+    // },
 
     updateArticle: function(isNew) {
-      this.buildJSON()
-      if(isNew == "Nuevo"){
+      this.buildJSON();
+      if (isNew == "Nuevo") {
         this.createData();
       } else {
         this.updateData();
@@ -105,44 +115,65 @@ export default {
 
     createData() {
       console.log("POST: " + this.apiURL);
-      this.$axios.$post(this.apiURL, this.articleData).then(function (response) {
-        console.log(response);
-      }).catch(function (error) {
-        console.log(error);
-      });
+      this.$axios
+        .$post(this.apiURL, this.articleData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
 
     updateData() {
       console.log("PUT: " + this.apiURL + this.$route.params.id);
 
-      this.$axios.$put(this.apiURL + this.$route.params.id, this.articleData).then(function (response) {
-        console.log(response);
-      }).catch(function (error) {
-        console.log(error);
-      });
+      this.$axios
+        .$put(this.apiURL + this.$route.params.id, this.articleData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
 
     deleteData() {
-      console.log("DELETE: " + this.apiURL + this.$route.params.id + '/' + this.singleArticle.dt);
+      console.log(
+        "DELETE: " +
+          this.apiURL +
+          this.$route.params.id +
+          "/" +
+          this.singleArticle.dt
+      );
 
-      this.$axios.$delete(this.apiURL + this.$route.params.id + '/' + this.singleArticle.dt).then(function (response) {
-        console.log(response);
-      }).catch(function (error) {
-        console.log(error);
-      });
+      this.$axios
+        .$delete(
+          this.apiURL + this.$route.params.id + "/" + this.singleArticle.dt
+        )
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
 
     buildJSON: function() {
       console.log("building");
-      this.articleData.dt =                     this.singleArticle.dt;
-      this.articleData.author =                 document.getElementById("author").value;
-      this.articleData.location =               document.getElementById("location").value;
-      this.articleData.publishStatus =          document.getElementById("status").value;
-      this.articleData.s3Dir =                  "-";
-      this.articleData.article.content =        document.getElementById("content").value;
-      this.articleData.article.section =        document.getElementById("section").value;
-      this.articleData.article.tags =           document.getElementById("tags").value;
-      this.articleData.article.title =          document.getElementById("title").value;
+      this.articleData.dt = this.singleArticle.dt;
+      this.articleData.author = document.getElementById("author").value;
+      this.articleData.location = document.getElementById("location").value;
+      this.articleData.publishStatus = document.getElementById("status").value;
+      this.articleData.s3Dir = "-";
+      this.articleData.article.content = document.getElementById(
+        "vue-medium-editor"
+      ).innerHTML;
+      this.articleData.article.section = document.getElementById(
+        "section"
+      ).value;
+      this.articleData.article.tags = document.getElementById("tags").value;
+      this.articleData.article.title = "Made with Vue Medium Editor";
       console.log(JSON.stringify(this.articleData));
     },
     // buildJSON: function() {
@@ -160,7 +191,7 @@ export default {
     // },
 
     toggleBar: function() {
-      this.showBar ? this.showBar = false : this.showBar = true;
+      this.showBar ? (this.showBar = false) : (this.showBar = true);
       this.toggleMargin();
     },
 
@@ -173,17 +204,38 @@ export default {
         this.marginBar = -250;
       }
     }
-  },
+  }
 };
 </script>
 
-<style scoped>
-#location, #section, #tags {
+<style>
+@import "@/CSS/editor.css";
+@import "@/CSS/editor-theme.css";
+#location,
+#section,
+#tags {
   display: inline;
 }
 
+div {
+  outline: none;
+}
+
+.editor-box {
+  padding: 20px 100px 100px;
+}
+
+.editor-box-bg-color {
+  padding: 10px;
+  background-color: #fafafa;
+}
+
+.editor-box h1 {
+  font-size: 24px;
+}
+
 .article-data {
-  transition: .7s;
+  transition: 0.7s;
   margin-left: 200px;
   margin-right: 250px;
   padding: 0 50px 0 50px;
